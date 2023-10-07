@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock head %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+    <header>
+        {% if user.is_authenticated %}
+            Hi, {{ user.username }} (email: {{ user.email }}, age: {{ user.age }})! <a href="{% url 'logout' %}">log out</a> <a href="{% url 'password_change' %}">change password</a> <a href="{% edit_current_user_status_tag user %}">new status</a>
+        {% else %}
+            You are not authenticated <a href="{% url 'login' %}">log in</a> or <a href="{% url 'signup' %}">sign up</a>
+        {% endif %}
+    </header>
+
+    {% for status in object_list %}
+        <div class="status">
+            <div class="edit">
+                <a href="{% url 'status_edit' status.pk %}">edit</a>
+            </div>
+            <div class="author">by {{ status.author }}</div>
+            <div class="text">{{ status.text }}</div>
+            <div class="media">
+                {% if status.is_image %}
+                    <img src="{{ status.media.url }}" style="height: 20vmin;">
+                {% else %}
+                    <video controls src="{{ status.media.url }}" style="height: 20vmin;">
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock body %}

@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     # Local
     'statuses.apps.StatusesConfig',
     'accounts.apps.AccountsConfig',
+    'pages.apps.PagesConfig',
 
     # 3d Party
-    'django_cleanup.apps.CleanupConfig'
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

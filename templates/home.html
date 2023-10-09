@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load custom_tags %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
@@ -11,7 +10,7 @@
 {% block body %}
     <header>
         {% if user.is_authenticated %}
-            Hi, {{ user.username }} (email: {{ user.email }}, age: {{ user.age }})! <a href="{% url 'logout' %}">log out</a> <a href="{% url 'password_change' %}">change password</a> <a href="{% edit_current_user_status_tag user %}">new status</a>
+            Hi, {{ user.username }} (email: {{ user.email }}, age: {{ user.age }})! <a href="{% url 'logout' %}">log out</a> <a href="{% url 'password_change' %}">change password</a> <a href="{% url 'status_create' %}">new status</a> <a href="{% url 'status_edit_by_user_id' user_id=user.id %}">edit status</a>
         {% else %}
             You are not authenticated <a href="{% url 'login' %}">log in</a> or <a href="{% url 'signup' %}">sign up</a>
         {% endif %}
@@ -20,7 +19,7 @@
     {% for status in object_list %}
         <div class="status">
             <div class="edit">
-                <a href="{% url 'status_edit' status.pk %}">edit</a>
+                <a href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
             </div>
             <div class="author">by {{ status.author }}</div>
             <div class="text">{{ status.text }}</div>

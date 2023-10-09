@@ -9,10 +9,10 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     list_display = ['username', 'age', 'email']
-    readonly_fields = ['age']
+    readonly_fields = ['age', 'id']
 
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password', 'age')}),
+        (None, {'fields': ('username', 'email', 'password', 'age', 'id')}),
     )
     add_fieldsets = (
         (None, {'fields': ('username', 'email', 'password1', 'password2', 'age')}),

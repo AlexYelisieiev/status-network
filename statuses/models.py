@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.db.models import ForeignKey
-
 from accounts.models import CustomUser
 
 
@@ -12,6 +11,7 @@ class Status(models.Model):
     author = ForeignKey(CustomUser, on_delete=models.CASCADE,
                         related_name='status')
     is_image = models.BooleanField(default=False)
+    likes = models.ManyToManyField(CustomUser, blank=True, related_name='likes')
 
     def __str__(self) -> str:
         return self.text[:50]

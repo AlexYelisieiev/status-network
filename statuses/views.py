@@ -1,9 +1,12 @@
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
-from .models import Status
+from django.http import HttpResponse
+from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import Status
 
 import mimetypes
 
@@ -43,3 +46,25 @@ class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         
     def test_func(self) -> bool:
         return self.request.user == self.get_object().author
+
+
+class StatusLikeView(LoginRequiredMixin, View):
+    login_url = 'login'
+
+    def get(self, request, status_id):
+        status = Status.objects.get(id=status_id)
+        user = request.user
+        if not status.likes.filter(id=user.id).exists():
+            status.likes.add(user)
+        else:
+            status.likes.remove(user)
+        return HttpResponseRedirect(reverse('home'))
+
+    def post(self, request, status_id):
+        status = Status.objects.get(id=status_id)
+        user = request.user
+        if not status.likes.filter(id=user.id).exists():
+            status.likes.add(user)
+        else:
+            status.likes.remove(user)
+        return HttpResponseRedirect(reverse('home'))

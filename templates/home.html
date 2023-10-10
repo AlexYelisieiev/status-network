@@ -29,6 +29,13 @@
                 {% else %}
                     <video controls src="{{ status.media.url }}" style="height: 20vmin;">
                 {% endif %}
+                <div class="like">
+                    <form action="{% url 'status_like' status.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Like</button>
+                    </form>
+                    <span>like count: {{ status.likes.count }}</span>
+                </div>
             </div>
         </div>
     {% endfor %}

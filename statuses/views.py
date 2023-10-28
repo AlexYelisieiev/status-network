@@ -2,7 +2,7 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
 from django.http import HttpResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -23,8 +23,9 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
             form.instance.media.name)[0].startswith('image/')
         form.instance.author = self.request.user
 
-        # Remove their previous status
-        Status.objects.get(author=self.request.user).delete()
+        # Remove their previous status if it exists
+        if previous_status := Status.objects.filter(author=self.request.user):
+            previous_status.delete()
 
         return super().form_valid(form)
 
@@ -35,6 +36,7 @@ class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Status
     fields = ['text', 'media']
 
+    # Use either status' id or user's id to find their status
     def get_object(self, queryset=None):
         if id := self.kwargs.get('id'):
             user_status = Status.objects.get(id=id)
@@ -46,6 +48,11 @@ class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         
     def test_func(self) -> bool:
         return self.request.user == self.get_object().author
+
+
+class StatusDetailView(DetailView):
+    template_name = 'status_detail.html'
+    model = Status
 
 
 class StatusLikeView(LoginRequiredMixin, View):

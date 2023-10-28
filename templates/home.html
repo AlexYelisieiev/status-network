@@ -1,42 +1,87 @@
 {% extends 'base.html' %}
-{% load static %}
-
-{% block head %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock head %}
 
 {% block title %}Home{% endblock title %}
 
 {% block body %}
-    <header>
-        {% if user.is_authenticated %}
-            Hi, {{ user.username }} (email: {{ user.email }}, age: {{ user.age }})! <a href="{% url 'logout' %}">log out</a> <a href="{% url 'password_change' %}">change password</a> <a href="{% url 'status_create' %}">new status</a> <a href="{% url 'status_edit_by_user_id' user_id=user.id %}">edit status</a>
-        {% else %}
-            You are not authenticated <a href="{% url 'login' %}">log in</a> or <a href="{% url 'signup' %}">sign up</a>
-        {% endif %}
-    </header>
-
-    {% for status in object_list %}
-        <div class="status">
-            <div class="edit">
-                <a href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
-            </div>
-            <div class="author">by {{ status.author }}</div>
-            <div class="text">{{ status.text }}</div>
-            <div class="media">
-                {% if status.is_image %}
-                    <img src="{{ status.media.url }}" style="height: 20vmin;">
-                {% else %}
-                    <video controls src="{{ status.media.url }}" style="height: 20vmin;">
-                {% endif %}
-                <div class="like">
-                    <form action="{% url 'status_like' status.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Like</button>
-                    </form>
-                    <span>like count: {{ status.likes.count }}</span>
-                </div>
+    <!-- -------------------------- Navbar --------------------------- -->
+    <nav class="navbar bg-light navbar-light navbar-expand-md rounded-bottom-4">
+        <div class="container-fluid">
+            <a href="{% url 'home' %}" class="navbar-brand">Status Network</a>
+            <button type="button" class="navbar-toggler" data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">Hi, {{ user.username }}!</a>
+                            <ul class="dropdown-menu" class="">
+                                <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">log out</a></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'password_change' %}">change password</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"></li>
+                        <li class="nav-item"></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'status_create' %}">new status</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'status_edit_by_user_id' user_id=user.id %}">edit status</a></li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">You are not authenticated</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'login' %}" class="dropdown-item">log in</a></li>
+                                <li><a href="{% url 'signup' %}" class="dropdown-item">sign up</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
-    {% endfor %}
+    </nav>
+    <!-- ----------------------- Main content ------------------------ -->
+    <div class="container-fluid mt-3 d-flex flex-wrap gap-3">
+        {% for status in object_list %}
+            <div class="card col-12 col-sm-4 col-md-3 col-lg-2 rounded-4">
+                <!-- Add card header if user is the author -->
+                {% if status.author == user %}
+                    <div class="card-header text-center">
+                        <a class="card-link" href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
+                    </div>
+                    <!-- Only make round media bottom -->
+                    {% if status.is_image %}
+                        <img class="card-img-top rounded-bottom-4" src="{{ status.media.url }}">
+                    {% else %}
+                        <video controls src="{{ status.media.url }}" class="card-img-top rounded-bottom-4"></video>
+                    {% endif %}
+                {% else %}
+                    <!-- Make round the whole media -->
+                    {% if status.is_image %}
+                        <img class="card-img-top rounded-4" src="{{ status.media.url }}">
+                    {% else %}
+                        <video controls src="{{ status.media.url }}" class="card-img-top rounded-4"></video>
+                    {% endif %}
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url 'status_detail' status.id %}" class="card-link text-decoration-none text-black">
+                        <div>
+                            <div class="mb-1">
+                                by {{ status.author }}
+                            </div>
+                            {{ status.text }}
+                        </div>
+                    </a>
+                </div>
+                <div class="card-footer">
+                    <form action="{% url 'status_like' status.id %}" method="post">
+                        {% csrf_token %}
+                        {% if user in status.likes.all %}
+                            <button type="submit" class="btn btn-danger">Liked</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary">Like</button>
+                        {% endif %}
+                    </form>
+                    <span> like count: {{ status.likes.count }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock body %}

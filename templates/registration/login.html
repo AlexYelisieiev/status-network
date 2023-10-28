@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <form action="" method="post">
+    <form action="" method="post" class="form bg-light rounded-4 col-lg-2 p-3 col-md-4 col-sm-6">
         {% csrf_token %}
-        {{ form.as_p }}
-        <a href="{% url 'password_reset' %}">Forgot password?</a>
-        <button type="submit">Submit</button>
+        <div class="">
+            <label for="id_username" class="form-label">Username:</label>
+            <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150"
+                required="" id="id_username" class="form-control">
+            <label for="id_password" class="form-label mt-2">Password:</label>
+            <input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="form-control">
+            <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
 {% endblock body %}

@@ -8,5 +8,5 @@ class SignUpView(CreateView):
     # If we use a form, we don't need to use a model, since
     # form is binded to a model
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('login')
     template_name = 'signup.html'

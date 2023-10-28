@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="media">
+        {% if object.is_image %}
+            <img src="{{ object.media.url }}">
+        {% else %}
+            <video controls src="{{ object.media.url }}">
+        {% endif %}
+        <div class="like">
+            <form action="{% url 'status_like' object.id %}" method="post">
+                {% csrf_token %}
+                {% if user in object.likes.all %}
+                    <button type="submit">Liked</button>
+                {% else %}
+                    <button type="submit">Like</button>
+                {% endif %}
+            </form>
+            <span> like count: {{ object.likes.count }}</span>
+        </div>
+    </div>
+    <a href="{% url 'home' %}">back to statuses</a>
+{% endblock body %}

@@ -31,6 +31,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
 
 
 class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    '''Takes either id (status' id) or user_id (user's id)'''
     login_url = 'login'
     template_name = 'status_edit.html'
     model = Status
@@ -42,7 +43,6 @@ class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             user_status = Status.objects.get(id=id)
         else:
             user_id = self.kwargs.get('user_id')
-            print('user_id')
             user_status = Status.objects.get(author_id=user_id)
         return user_status
         

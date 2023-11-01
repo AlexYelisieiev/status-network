@@ -40,24 +40,24 @@
     <!-- ----------------------- Main content ------------------------ -->
     <div class="container-fluid mt-3 d-flex flex-wrap gap-3">
         {% for status in object_list %}
-            <div class="card col-12 col-sm-4 col-md-3 col-lg-2 rounded-4">
+            <div class="card col-12 col-sm-5 col-md-5 col-lg-2 rounded-4">
                 <!-- Add card header if user is the author -->
                 {% if status.author == user %}
                     <div class="card-header text-center">
-                        <a class="card-link" href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
+                        <a class="card-link text-decoration-none text-secondary" href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
                     </div>
                     <!-- Only make round media bottom -->
                     {% if status.is_image %}
-                        <img class="card-img-top rounded-bottom-4" src="{{ status.media.url }}">
+                        <img class="card-img-top rounded-bottom-3" src="{{ status.media.url }}">
                     {% else %}
-                        <video controls src="{{ status.media.url }}" class="card-img-top rounded-bottom-4"></video>
+                        <video controls src="{{ status.media.url }}" class="rounded-bottom-3"></video>
                     {% endif %}
                 {% else %}
                     <!-- Make round the whole media -->
                     {% if status.is_image %}
-                        <img class="card-img-top rounded-4" src="{{ status.media.url }}">
+                        <img class="card-img-top rounded-3" src="{{ status.media.url }}">
                     {% else %}
-                        <video controls src="{{ status.media.url }}" class="card-img-top rounded-4"></video>
+                        <video controls src="{{ status.media.url }}" class="card-img-top rounded-3"></video>
                     {% endif %}
                 {% endif %}
                 <div class="card-body">

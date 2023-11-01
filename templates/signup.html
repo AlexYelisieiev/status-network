@@ -1,9 +1,31 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <form action="" method="post">
+<div class="container d-flex flex-column justify-content-center align-items-center flex-wrap" style="height: 100vh;">
+    <h1 class="mb-4">Signup</h1>
+    <form action="" class="form bg-light rounded-4 col-lg-3 p-3 col-md-4 col-sm-6" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <div>
+            <label class="form-label" for="id_username">Username:</label>
+            <input class="form-control" type="text" name="username" maxlength="150" autofocus="" required="" id="id_username">
+        </div>
+        <div class="mt-2">
+            <label class="form-label" for="id_email">Email address:</label>
+            <input class="form-control" type="email" name="email" maxlength="254" id="id_email">
+        </div>
+        <div class="mt-2">
+            <label class="form-label" for="id_age">Age:</label>
+            <input class="form-control" type="number" name="age" min="0" id="id_age">
+        </div>
+        <div class="mt-2">
+            <label class="form-label" for="id_password1">Password:</label>
+            <input class="form-control" type="password" name="password1" autocomplete="new-password" required="" id="id_password1">
+        </div>
+        <div class="mt-2">
+            <label class="form-label" for="id_password2">Password confirmation:</label>
+            <input class="form-control" type="password" name="password2" autocomplete="new-password" required="" id="id_password2">
+        </div>
+        <button class="btn btn-primary mt-3" type="submit">Submit</button>
     </form>
+    </div>
 {% endblock body %}

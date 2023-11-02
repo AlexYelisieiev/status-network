@@ -15,12 +15,12 @@
         {% csrf_token %}
         <div>
             <label class="form-label" for="id_text">Text:</label>
-            <textarea class="form-control" name="text" cols="40" rows="10" required="" id="id_text">hjkmhjk</textarea>
+            <textarea class="form-control" name="text" cols="40" rows="10" required="" id="id_text">{{ object.text }}</textarea>
         </div>
         <div class="mt-2">
             <label class="form-label" for="id_media">Media:</label>
             <input class="form-control" type="file" name="media" id="id_media" aria-describedby="currentMedia">
-            <span id="currentMedia" class="form-text">Currently: <a href="/media/statuses/ray-so-export.png">statuses/ray-so-export.png</a></span>
+            <span id="currentMedia" class="form-text"><a href="{{ object.media.url }}">Current media</a></span>
         </div>
         <button class="btn btn-primary mt-3" type="submit">Submit</button>
     </form>

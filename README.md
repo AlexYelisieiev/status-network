@@ -10,7 +10,7 @@ Status Network is a social media platform built with Django where users can crea
 - User registration and login
 - Password change/reset using email
 - Create, edit, update, and like statuses
-- Upload and display images and videos
+- Multimedia support
 
 
 ## 🧪 Technologies Used

@@ -49,6 +49,12 @@ class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self) -> bool:
         return self.request.user == self.get_object().author
 
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        # Reset status media type info in case it's changed 
+        form.instance.is_image = mimetypes.guess_type(
+            form.instance.media.name)[0].startswith('image/')
+        return super().form_valid(form)
+
 
 class StatusDetailView(DetailView):
     template_name = 'status_detail.html'

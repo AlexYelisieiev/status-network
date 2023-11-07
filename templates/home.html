@@ -50,14 +50,14 @@
                     {% if status.is_image %}
                         <img class="card-img-top rounded-bottom-3" src="{{ status.media.url }}">
                     {% else %}
-                        <video controls src="{{ status.media.url }}" class="rounded-bottom-3"></video>
+                        <video controls muted src="{{ status.media.url }}" class="rounded-bottom-3"></video>
                     {% endif %}
                 {% else %}
                     <!-- Make round the whole media -->
                     {% if status.is_image %}
                         <img class="card-img-top rounded-3" src="{{ status.media.url }}">
                     {% else %}
-                        <video controls src="{{ status.media.url }}" class="card-img-top rounded-3"></video>
+                        <video controls muted src="{{ status.media.url }}" class="card-img-top rounded-3"></video>
                     {% endif %}
                 {% endif %}
                 <div class="card-body">

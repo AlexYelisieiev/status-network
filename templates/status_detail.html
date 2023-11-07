@@ -21,13 +21,13 @@
     </div>
 </nav>
 <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-    <div class="card rounded-4 col-lg-7 col-md-8 col-sm-10 mt-3">
+    <div class="card rounded-4 col-lg-7 col-md-8 col-sm-10 mt-3 mb-3">
+        {% if object.is_image %}
+            <img class="card-img-top rounded-4" src="{{ object.media.url }}">
+        {% else %}
+            <video class="card-img-top rounded-4" controls src="{{ object.media.url }}"></video>
+        {% endif %}
         <div class="card-body">
-            {% if object.is_image %}
-                <img class="card-img-top rounded-4" src="{{ object.media.url }}">
-            {% else %}
-                <video class="card-img-top rounded-4" controls src="{{ object.media.url }}">
-            {% endif %}
             <div class="card-text mt-2">
                 <div class="mb-1">
                     by {{ object.author }}

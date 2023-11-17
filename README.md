@@ -4,6 +4,9 @@
 
 Status Network is a social media platform built with Django and Bootstrap where users can create, edit, share, and interact with status updates that support media and text content.
 
+Here is the concept:
+![image](https://github.com/AlexYelisieiev/status-network/assets/62658287/bfebd3d0-60ea-4531-955e-3f191a14d0c0)
+
 
 ## 🌟 Features
 

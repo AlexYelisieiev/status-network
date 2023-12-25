@@ -16,8 +16,14 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">Hi, {{ user.username }}!</a>
                         <ul class="dropdown-menu" class="">
-                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">log out</a></li>
-                            <li><a class="dropdown-item text-danger" href="{% url 'password_change' %}">change password</a>
+                            <li>
+                                <form action="{% url 'logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item text-danger">log out</button>
+                                </form>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'password_change' %}">change password</a>
                             </li>
                         </ul>
                     </li>
@@ -30,8 +36,18 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">You are not authenticated</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'login' %}" class="dropdown-item">log in</a></li>
-                            <li><a href="{% url 'signup' %}" class="dropdown-item">sign up</a></li>
+                            <li>
+                                <form action="{% url 'login' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item text-danger">log in</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form action="{% url 'signup' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item text-danger">sign up</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                     {% endif %}

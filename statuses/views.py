@@ -1,14 +1,33 @@
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView
 from django.http import HttpResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Status
+from django.http import HttpRequest, HttpResponseForbidden, HttpResponseRedirect
 
 import mimetypes
+
+
+def generate_ai_summary_view(request: HttpRequest, status_id: int):
+    chosen_status = Status.objects.get(id=status_id)
+
+    # Check if user doesn't have permission
+    if request.user != chosen_status.author:
+        return HttpResponseForbidden("Not a chance!")
+
+    # Check if entity already has an AI summary
+    if chosen_status.ai_summary:
+        return HttpResponseRedirect(redirect_to=reverse_lazy('home'))
+
+    # Initiate status's AI sumary generation method
+    chosen_status.generate_ai_summary()
+
+    return HttpResponseRedirect(
+        redirect_to=reverse_lazy('status_detail', kwargs={'pk': chosen_status.id}))
 
 
 class StatusCreateView(LoginRequiredMixin, CreateView):

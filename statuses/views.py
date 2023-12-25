@@ -15,13 +15,9 @@ import mimetypes
 def generate_ai_summary_view(request: HttpRequest, status_id: int):
     chosen_status = Status.objects.get(id=status_id)
 
-    # Check if user doesn't have permission
-    if request.user != chosen_status.author:
-        return HttpResponseForbidden("Not a chance!")
-
     # Check if entity already has an AI summary
     if chosen_status.ai_summary:
-        return HttpResponseRedirect(redirect_to=reverse_lazy('home'))
+        return HttpResponseRedirect(redirect_to=reverse('home'))
 
     # Initiate status's AI sumary generation method
     chosen_status.generate_ai_summary()

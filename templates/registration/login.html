@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container d-flex flex-column justify-content-center align-items-center flex-wrap" style="height: 100vh;">
         <h1 class="mb-4">Login</h1>
-        <form action="" method="post" class="form h-auto bg-light rounded-4 col-lg-3 p-3 col-md-4 col-sm-6">
+        <form action="" method="post" class="form h-auto rounded-4 col-lg-3 p-3 col-md-4 col-sm-6">
             {% csrf_token %}
             <div>
                 <label for="id_username" class="form-label">Username:</label>
@@ -15,7 +15,7 @@
                 <input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="form-control">
                 <a href="{% url 'password_reset' %}">Forgot password?</a>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <button type="submit" class="btn bg-primary-subtle text-primary-emphasis border border-primary-subtle mt-3">Submit</button>
         </form>
     </div>
 {% endblock body %}

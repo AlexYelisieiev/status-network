@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container d-flex flex-column justify-content-center align-items-center flex-wrap" style="height: 100vh;">
     <h1 class="mb-4">Signup</h1>
-    <form action="" class="form bg-light rounded-4 col-lg-3 p-3 col-md-4 col-sm-6" method="post">
+    <form action="" class="form rounded-4 col-lg-4 p-3 col-md-5 col-sm-6" method="post">
         {% csrf_token %}
         <div>
             <label class="form-label" for="id_username">Username:</label>
@@ -25,7 +25,7 @@
             <label class="form-label" for="id_password2">Password confirmation:</label>
             <input class="form-control" type="password" name="password2" autocomplete="new-password" required="" id="id_password2">
         </div>
-        <button class="btn btn-primary mt-3" type="submit">Submit</button>
+        <button class="btn bg-primary-subtle text-primary-emphasis border border-primary-subtle mt-3" type="submit">Submit</button>
     </form>
     </div>
 {% endblock body %}

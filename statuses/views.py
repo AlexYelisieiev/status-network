@@ -19,6 +19,10 @@ def generate_ai_summary_view(request: HttpRequest, status_id: int):
     if chosen_status.ai_summary:
         return HttpResponseRedirect(redirect_to=reverse('home'))
 
+    # Check if user is anonymous and redirect them to Login page if so
+    if request.user.is_anonymous:
+        return HttpResponseRedirect(redirect_to=reverse('login'))
+
     # Initiate status's AI sumary generation method
     chosen_status.generate_ai_summary()
 

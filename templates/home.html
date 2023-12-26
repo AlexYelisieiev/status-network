@@ -31,13 +31,13 @@
                         <div class="mb-1">
                             by {{ status.author }}
                         </div>
-                        {{ status.text }}
+                        {{ status.text | truncatechars:150 }}
                     </div>
                 </a>
             </div>
             <div class="card-footer">
-                <div class="row">
-                    <div class="col">
+                <div class="d-flex flex-row justify-content-between">
+                    <div class="col-auto">
                         <form action="{% url 'status_like' status.id %}" method="post">
                             {% csrf_token %}
                             {% if user in status.likes.all %}
@@ -49,9 +49,9 @@
                         </form>
                     </div>
                     {% if not status.ai_summary %}
-                        <div class="col">
-                             <a href="{% url 'status_generate_ai_summary' status.id %}" aria-describedby="ai_description_text" class="btn bg-primary-subtle text-primary-emphasis border border-primary-subtle">AI Summary</a>
-                            <span class="form-text" id="ai_description_text" c>This status is long</span>
+                        <div class="col-auto">
+                            <a href="{% url 'status_generate_ai_summary' status.id %}" aria-describedby="ai_description_text" class="btn bg-primary-subtle text-primary-emphasis border border-primary-subtle">AI Summary</a>
+                            <br><span class="form-text" id="ai_description_text" c>Too long to read?</span>
                         </div>
                     </div>
                     {% else %}

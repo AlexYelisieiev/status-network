@@ -68,6 +68,11 @@ class StatusEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # Reset status media type info in case it's changed 
         form.instance.is_image = mimetypes.guess_type(
             form.instance.media.name)[0].startswith('image/')
+        
+        # Delete ai summary if form has changed
+        if form.has_changed():
+            form.instance.ai_summary = ''
+        
         return super().form_valid(form)
 
 

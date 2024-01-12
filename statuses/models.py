@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.db.models import ForeignKey
 from accounts.models import CustomUser
-import config
+import os
 import requests
 
 
@@ -27,9 +27,9 @@ class Status(models.Model):
     def generate_ai_summary(self):
         '''Generates a short ai summary based on the Status' text'''
 
-        api_url = config.TEXT_API_URL
+        api_url = os.environ.get("TEXT_API_URL")
         headers = {
-            'Authorization': f'Bearer {config.API_TOKEN}'
+            'Authorization': f'Bearer {os.environ.get("API_TOKEN")}'
         }
 
         payload = {

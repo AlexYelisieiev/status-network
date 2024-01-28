@@ -2,66 +2,69 @@
 
 {% block main_content %}
 <!-- TODO: check if summary exists and remove the button -->
-    <div class="container-fluid mt-3 d-flex flex-wrap gap-3">
-        {% for status in object_list %}
-        <div class="card col-12 col-sm-7 col-md-6 col-lg-3 rounded-4">
-            <!-- Add card header if user is the author -->
-            {% if status.author == user %}
-            <div class="card-header text-center">
-                <a class="card-link text-decoration-none text-secondary"
-                    href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
-            </div>
-            <!-- Only make round media bottom -->
-            {% if status.is_image %}
-            <img class="card-img-top rounded-bottom-3" src="{{ status.media.url }}">
-            {% else %}
-            <video controls muted src="{{ status.media.url }}" class="rounded-bottom-3"></video>
-            {% endif %}
-            {% else %}
-            <!-- Make round the whole media -->
-            {% if status.is_image %}
-            <img class="card-img-top rounded-3" src="{{ status.media.url }}">
-            {% else %}
-            <video controls muted src="{{ status.media.url }}" class="card-img-top rounded-3"></video>
-            {% endif %}
-            {% endif %}
-            <div class="card-body">
-                <a href="{% url 'status_detail' status.id %}" class="card-link text-decoration-none text-body">
-                    <div>
-                        <div class="mb-1">
-                            by {{ status.author }}
-                        </div>
-                        {{ status.text | truncatechars:150 }}
-                    </div>
-                </a>
-            </div>
-            <div class="card-footer">
-                <div class="d-flex flex-row justify-content-between">
-                    <div class="col-auto">
-                        <form action="{% url 'status_like' status.id %}" method="post">
-                            {% csrf_token %}
-                            {% if user in status.likes.all %}
-                                <button type="submit" class="btn bg-danger-subtle text-danger-emphasis border border-danger-subtle">Liked</button>
-                            {% else %}
-                                <button type="submit" class="btn bg-success-subtle text-success-emphasis border border-success-subtle">Like</button>
-                            {% endif %}
-                            <br><span class="form-text" id="like_description_text" c>Like count: {{ status.likes.count }}</span>
-                        </form>
-                    </div>
-                    {% if not status.ai_summary %}
-                        <div class="col-auto">
-                            <a href="{% url 'status_generate_ai_summary' status.id %}" aria-describedby="ai_description_text" class="btn bg-primary-subtle text-primary-emphasis border border-primary-subtle">AI Summary</a>
-                            <br><span class="form-text" id="ai_description_text" c>Too long to read?</span>
-                        </div>
-                    </div>
-                    {% else %}
-                    </div>
-                    <div class="col-auto mt-2 bg-primary-subtle border border-primary-subtle text-primary-emphasis p-2 rounded-2">
-                        <strong>AI Summary: </strong><span>{{ status.ai_summary }}</span>
-                    </div>
-                    {% endif %}
-            </div>
+<div class="container-fluid mt-3 d-flex flex-wrap gap-3">
+    {% for status in object_list %}
+    <div class="card col-12 col-sm-7 col-md-6 col-lg-3 rounded-4">
+        <!-- Add card header if user is the author -->
+        {% if status.author == user %}
+        <div class="card-header text-center">
+            <a class="card-link text-decoration-none text-secondary"
+                href="{% url 'status_edit_by_status_id' status.id %}">edit</a>
         </div>
-        {% endfor %}
+        <!-- Only make round media bottom -->
+        {% if status.is_image %}
+        <img class="card-img-top rounded-bottom-3" src="{{ status.media.url }}">
+        {% else %}
+        <video controls muted src="{{ status.media.url }}" class="rounded-bottom-3"></video>
+        {% endif %}
+        {% else %}
+        <!-- Make round the whole media -->
+        {% if status.is_image %}
+        <img class="card-img-top rounded-3" src="{{ status.media.url }}">
+        {% else %}
+        <video controls muted src="{{ status.media.url }}" class="card-img-top rounded-3"></video>
+        {% endif %}
+        {% endif %}
+        <div class="card-body">
+            <a href="{% url 'status_detail' status.id %}" class="card-link text-decoration-none text-body">
+                <div>
+                    <div class="mb-1">
+                        by {{ status.author }}
+                    </div>
+                    {{ status.text | truncatechars:150 }}
+                </div>
+            </a>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="col-auto">
+                    <form action="{% url 'status_like' status.id %}" method="post">
+                        {% csrf_token %}
+                        {% if user in status.likes.all %}
+                        <button type="submit"
+                            class="btn bg-danger-subtle text-danger-emphasis border border-danger-subtle">Liked</button>
+                        {% else %}
+                        <button type="submit"
+                            class="btn bg-success-subtle text-success-emphasis border border-success-subtle">Like</button>
+                        {% endif %}
+                        <br><span class="form-text" id="like_description_text" c>Like count: {{ status.likes.count }}</span>
+                    </form>
+                </div>
+                {% if not status.ai_summary %}
+                <div class="col-auto">
+                    <a href="{% url 'status_generate_ai_summary' status.id %}" aria-describedby="ai_description_text"
+                        class="btn bg-primary-subtle text-primary-emphasis border border-primary-subtle">AI Summary</a>
+                    <br><span class="form-text" id="ai_description_text" c>Too long to read?</span>
+                </div>
+            </div>
+            {% else %}
+        </div>
+        <div class="col-auto mt-2 bg-primary-subtle border border-primary-subtle text-primary-emphasis p-2 rounded-2">
+            <strong>AI Summary: </strong><span>{{ status.ai_summary }}</span>
+        </div>
+        {% endif %}
     </div>
+</div>
+{% endfor %}
+</div>
 {% endblock main_content %}
